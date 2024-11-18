@@ -219,6 +219,7 @@ class Game(object):
             del self.knowledge[self.current_player][action.card_index]
             self.draw_card()
             print(self.players[self.current_player].name, "now has", format_hand(self.hands[self.current_player]), file=self.log)
+
     def valid_actions(self):
         valid = []
         for i in range(len(self.hands[self.current_player])):
@@ -232,6 +233,7 @@ class Game(object):
                     for rank in set([card[1] for card in self.hands[i]]):
                         valid.append(Action(HINT_RANK, player=i, rank=rank))
         return valid
+
     def run(self, turns=-1):
         self.turn = 1
         while not self.done() and (turns < 0 or self.turn < turns):
@@ -257,8 +259,10 @@ class Game(object):
         points = self.score()
         print("Points:", points, file=self.log)
         return points
+
     def score(self):
         return sum([card.rank for card in self.board])
+
     def single_turn(self):
         if not self.done():
             if not self.deck:
